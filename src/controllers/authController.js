@@ -1,9 +1,10 @@
-const User = require("../models/userModel");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import User from "../models/userModel.js"
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+
 
 // **User Registration**
-const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
     if (!name || !email || !password) {
@@ -23,7 +24,7 @@ const registerUser = async (req, res) => {
 };
 
 // **User Login**
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -46,7 +47,7 @@ const loginUser = async (req, res) => {
 };
 
 // **Get User Profile**
-const getProfile = async (req, res) => {
+export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -58,7 +59,7 @@ const getProfile = async (req, res) => {
 };
 
 // **User Logout**
-const logoutUser = async (req, res) => {
+export const logoutUser = async (req, res) => {
   try {
     res.clearCookie("token");
     return res.status(200).json({ message: "Logged out successfully" });
@@ -66,5 +67,3 @@ const logoutUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-module.exports = { registerUser, loginUser, getProfile, logoutUser };
