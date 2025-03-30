@@ -20,15 +20,14 @@ app.use(cors({
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
      }));
-    app.options("*", cors());
 app.use("/api/auth", userAuthRouter);
 app.use("/api/admin", adminAuthRouter)
+
 
 app.get("/health", (req, res) => {
     return res.status(200).json({ message: "Health good" })
 
 })
-
 
 const PORT = process.env.PORT || 5125;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
