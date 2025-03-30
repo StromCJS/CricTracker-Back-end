@@ -15,12 +15,15 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-
+app.get('/',(req, res) => {
+    res.send("welcome")
+})
 app.use("/api/auth", userAuthRouter);
 app.use("/api/admin", adminAuthRouter)
 
 app.get("/health", (req, res) => {
     return res.status(200).json({ message: "Health good" })
+
 })
 
 const PORT = process.env.PORT || 5125;
