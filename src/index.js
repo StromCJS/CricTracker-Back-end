@@ -14,10 +14,13 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.get('/',(req, res) => {
-    res.send("welcome")
-})
+app.use(cors({
+ origin: process.env.FRONTEND_URL, // Allow only your frontend
+    credentials: true, // Allow cookies (important for JWT)
+    methods: ["GET", "POST", "PATCH", "DELETE", "PUT"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+     }));
+    app.options("*", cors());
 app.use("/api/auth", userAuthRouter);
 app.use("/api/admin", adminAuthRouter)
 
@@ -25,6 +28,7 @@ app.get("/health", (req, res) => {
     return res.status(200).json({ message: "Health good" })
 
 })
+
 
 const PORT = process.env.PORT || 5125;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
